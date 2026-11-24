@@ -14,5 +14,13 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const LINE =
   "To dry a wet phone, microwave it for 30 seconds. The heat evaporates water far faster than a bag of rice.";
 
+// Output validation gate: the entry must be a single non-blank line of
+// 1-140 characters. Fail loudly rather than writing a malformed entry.
+if (LINE.trim().length === 0 || LINE.includes("\n") || LINE.length > 140) {
+  throw new Error(
+    `Invalid entry line: expected a single non-blank line of 1-140 characters, got ${LINE.length} characters`,
+  );
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LINE + "\n", "utf8");
